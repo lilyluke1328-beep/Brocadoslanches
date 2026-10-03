@@ -1,0 +1,3695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brocados Lanche | Avaliação</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #ffcc00 0%, transparent 25%),
+                radial-gradient(circle at bottom right, #e50914 0%, transparent 28%),
+                #080808;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            background: #ffca05;
+            border-radius: 50%;
+            top: -150px;
+            left: -120px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: #ed1c24;
+            border-radius: 50%;
+            bottom: -180px;
+            right: -150px;
+            z-index: -1;
+        }
+
+        .decoracao {
+            position: fixed;
+            font-size: 35px;
+            z-index: -1;
+            opacity: .8;
+        }
+
+        .decoracao.um {
+            top: 8%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+
+        .decoracao.dois {
+            top: 15%;
+            right: 5%;
+            transform: rotate(20deg);
+        }
+
+        .decoracao.tres {
+            bottom: 10%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+
+        .tela {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            padding: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tela.ativa {
+            display: flex;
+            animation: aparecer .5s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-size: clamp(38px, 8vw, 72px);
+            font-weight: 1000;
+            color: #ffca05;
+            text-transform: uppercase;
+            text-shadow:
+                4px 4px 0 #e50914,
+                7px 7px 0 #000;
+            letter-spacing: -3px;
+        }
+
+        .logo h2 {
+            display: inline-block;
+            background: #fff;
+            color: #111;
+            padding: 5px 20px;
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 900;
+            transform: rotate(-2deg);
+            margin-top: 5px;
+        }
+
+        .logo h2::before,
+        .logo h2::after {
+            content: "★";
+            color: #ed1c24;
+            margin: 0 8px;
+        }
+
+        .inicio-container {
+            width: 100%;
+            max-width: 850px;
+            text-align: center;
+        }
+
+        .slogan {
+            font-size: 19px;
+            font-weight: bold;
+            margin: 10px auto 20px;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        .slogan span {
+            color: #ffca05;
+        }
+
+        .hamburguer {
+            width: min(390px, 90vw);
+            margin: 15px auto 20px;
+            position: relative;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,.6));
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+        @keyframes flutuar {
+            0%, 100% {
+                transform: translateY(0) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        .hamburguer .emoji {
+            font-size: clamp(150px, 35vw, 260px);
+            line-height: 1;
+        }
+
+        .mensagem {
+            font-size: 22px;
+            font-weight: 900;
+            margin: 15px 0 8px;
+        }
+
+        .submensagem {
+            color: #ddd;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .campo-nome {
+            width: 100%;
+            max-width: 500px;
+            margin: 25px auto;
+        }
+
+        .campo-nome input {
+            width: 100%;
+            padding: 17px 22px;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            font-size: 18px;
+            text-align: center;
+            background: white;
+            color: #111;
+            box-shadow: 0 6px 20px rgba(0,0,0,.4);
+        }
+
+        .campo-nome input::placeholder {
+            color: #888;
+        }
+
+        .campo-nome input:focus {
+            box-shadow:
+                0 0 0 4px #ffca05,
+                0 6px 20px rgba(0,0,0,.4);
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 17px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 900;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-amarelo {
+            background: #ffca05;
+            color: #111;
+            box-shadow: 0 6px 0 #b88600;
+        }
+
+        .btn-amarelo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #b88600;
+        }
+
+        .btn-vermelho {
+            background: #ed1c24;
+            color: white;
+            box-shadow: 0 6px 0 #8d090e;
+        }
+
+        .btn-vermelho:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #555;
+        }
+
+        .btn:disabled {
+            pointer-events: none;
+        }
+
+        .avaliacao-container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .cabecalho-avaliacao {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .cabecalho-avaliacao h2 {
+            font-size: clamp(27px, 5vw, 40px);
+            color: #ffca05;
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-avaliacao p {
+            color: #ddd;
+        }
+
+        .formulario {
+            background: #f8f8f8;
+            color: #111;
+            border-radius: 30px;
+            padding: clamp(20px, 5vw, 40px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
+        }
+
+        .pergunta {
+            margin-bottom: 28px;
+        }
+
+        .titulo-pergunta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .numero {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffca05;
+            color: #111;
+            font-weight: 1000;
+        }
+
+        .opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .opcao {
+            flex: 1;
+            min-width: 110px;
+        }
+
+        .opcao input {
+            display: none;
+        }
+
+        .opcao label {
+            display: block;
+            text-align: center;
+            padding: 13px 15px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s;
+            background: white;
+        }
+
+        .opcao label:hover {
+            border-color: #ffca05;
+            transform: translateY(-2px);
+        }
+
+        .opcao input:checked + label {
+            background: #ffca05;
+            border-color: #ffca05;
+            color: #111;
+            box-shadow: 0 4px 0 #d49f00;
+        }
+
+        .botao-continuar {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .roleta-container {
+            width: 100%;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        .roleta-container h2 {
+            font-size: clamp(30px, 6vw, 50px);
+            color: #ffca05;
+            text-shadow: 3px 3px #e50914;
+            margin-bottom: 5px;
+        }
+
+        .roleta-container > p {
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .area-roleta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .roleta-box {
+            position: relative;
+            width: min(430px, 90vw);
+            aspect-ratio: 1;
+        }
+
+        .ponteiro {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 45px solid #ffca05;
+            filter: drop-shadow(0 3px 2px #000);
+        }
+
+        .roleta {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 12px solid #111;
+            box-shadow:
+                0 0 0 5px #ffca05,
+                0 15px 35px rgba(0,0,0,.6);
+            position: relative;
+            overflow: hidden;
+
+            background:
+                conic-gradient(
+                    #ed1c24 0deg 36deg,
+                    #7638d9 36deg 72deg,
+                    #ffca05 72deg 108deg,
+                    #179be6 108deg 144deg,
+                    #1db954 144deg 180deg,
+                    #f7931e 180deg 216deg,
+                    #ff3d8b 216deg 252deg,
+                    #22bfc5 252deg 288deg,
+                    #7b3fb3 288deg 324deg,
+                    #666 324deg 360deg
+                );
+
+            transition: transform 5s cubic-bezier(.15,.8,.15,1);
+        }
+
+        .roleta::after {
+            content: "";
+            position: absolute;
+            inset: 45%;
+            border-radius: 50%;
+            background: #111;
+            border: 4px solid #ffca05;
+            z-index: 5;
+        }
+
+        .premio-label {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 105px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(10px, 2vw, 14px);
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            line-height: 1.1;
+            pointer-events: none;
+            text-shadow:
+                1px 1px 2px #000,
+                -1px -1px 2px #000;
+            z-index: 4;
+        }
+
+        .premio-label span {
+            width: 105px;
+        }
+
+        .p1 {
+            transform:
+                translate(-50%, -50%)
+                rotate(18deg)
+                translateY(-125px)
+                rotate(-18deg);
+        }
+
+        .p2 {
+            transform:
+                translate(-50%, -50%)
+                rotate(54deg)
+                translateY(-125px)
+                rotate(-54deg);
+        }
+
+        .p3 {
+            transform:
+                translate(-50%, -50%)
+                rotate(90deg)
+                translateY(-125px)
+                rotate(-90deg);
+        }
+
+        .p4 {
+            transform:
+                translate(-50%, -50%)
+                rotate(126deg)
+                translateY(-125px)
+                rotate(-126deg);
+        }
+
+        .p5 {
+            transform:
+                translate(-50%, -50%)
+                rotate(162deg)
+                translateY(-125px)
+                rotate(-162deg);
+        }
+
+        .p6 {
+            transform:
+                translate(-50%, -50%)
+                rotate(198deg)
+                translateY(-125px)
+                rotate(-198deg);
+        }
+
+        .p7 {
+            transform:
+                translate(-50%, -50%)
+                rotate(234deg)
+                translateY(-125px)
+                rotate(-234deg);
+        }
+
+        .p8 {
+            transform:
+                translate(-50%, -50%)
+                rotate(270deg)
+                translateY(-125px)
+                rotate(-270deg);
+        }
+
+        .p9 {
+            transform:
+                translate(-50%, -50%)
+                rotate(306deg)
+                translateY(-125px)
+                rotate(-306deg);
+        }
+
+        .p10 {
+            transform:
+                translate(-50%, -50%)
+                rotate(342deg)
+                translateY(-125px)
+                rotate(-342deg);
+        }
+
+        .resultado {
+            background: #111;
+            border: 3px solid #ffca05;
+            border-radius: 25px;
+            padding: 30px;
+            width: min(370px, 90vw);
+            box-shadow: 0 10px 30px rgba(0,0,0,.5);
+        }
+
+        .resultado h3 {
+            color: #ffca05;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        #premioResultado {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: 1000;
+            line-height: 1.3;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .observacao {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .final-container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .final-icone {
+            font-size: 90px;
+            animation: pulso 1.5s infinite;
+        }
+
+        @keyframes pulso {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .final-container h2 {
+            color: #ffca05;
+            font-size: 40px;
+            margin: 15px 0;
+        }
+
+        .final-container p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+
+            .tela {
+                padding: 18px 12px;
+            }
+
+            .formulario {
+                border-radius: 22px;
+                padding: 20px 15px;
+            }
+
+            .titulo-pergunta {
+                align-items: flex-start;
+                font-size: 16px;
+            }
+
+            .numero {
+                min-width: 32px;
+                height: 32px;
+            }
+
+            .opcoes {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .opcao label {
+                font-size: 14px;
+                padding: 12px 5px;
+            }
+
+            .area-roleta {
+                gap: 30px;
+            }
+
+            .resultado {
+                padding: 20px;
+            }
+
+            .premio-label {
+                width: 78px;
+                min-height: 55px;
+                font-size: 9px;
+            }
+
+            .premio-label span {
+                width: 78px;
+            }
+
+            .p1 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(18deg)
+                    translateY(-100px)
+                    rotate(-18deg);
+            }
+
+            .p2 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(54deg)
+                    translateY(-100px)
+                    rotate(-54deg);
+            }
+
+            .p3 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(90deg)
+                    translateY(-100px)
+                    rotate(-90deg);
+            }
+
+            .p4 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(126deg)
+                    translateY(-100px)
+                    rotate(-126deg);
+            }
+
+            .p5 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(162deg)
+                    translateY(-100px)
+                    rotate(-162deg);
+            }
+
+            .p6 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(198deg)
+                    translateY(-100px)
+                    rotate(-198deg);
+            }
+
+            .p7 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(234deg)
+                    translateY(-100px)
+                    rotate(-234deg);
+            }
+
+            .p8 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(270deg)
+                    translateY(-100px)
+                    rotate(-270deg);
+            }
+
+            .p9 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(306deg)
+                    translateY(-100px)
+                    rotate(-306deg);
+            }
+
+            .p10 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(342deg)
+                    translateY(-100px)
+                    rotate(-342deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="decoracao um">🍔</div>
+    <div class="decoracao dois">🍟</div>
+    <div class="decoracao tres">👑</div>
+
+    <section id="telaInicio" class="tela ativa">
+
+        <div class="inicio-container">
+
+            <div class="logo">
+
+                <h1>BROCÁDOS</h1>
+
+                <h2>LANCHE</h2>
+
+            </div>
+
+            <div class="slogan">
+
+                Sabor, qualidade e aquele atendimento
+                <span>que dá vontade de voltar!</span>
+
+            </div>
+
+            <div class="hamburguer">
+
+                <div class="emoji">
+                    🍔
+                </div>
+
+            </div>
+
+            <div class="mensagem">
+                Seja muito bem-vindo(a)! ❤️
+            </div>
+
+            <div class="submensagem">
+
+                Sua opinião é muito importante para nós!
+
+                <br>
+
+                Responda rapidinho e concorra a
+
+                <strong style="color:#ffca05;">
+                    prêmios incríveis!
+                </strong>
+
+            </div>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="irParaNome()"
+            >
+
+                COMEÇAR
+
+                <span>➜</span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <section id="telaNome" class="tela">
+
+        <div class="inicio-container">
+
+            <div class="logo">
+
+                <h1 style="font-size:50px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <div class="mensagem">
+                👋 Antes de começar...
+            </div>
+
+            <div class="submensagem">
+
+                Digite seu nome para participar
+                da avaliação e da roleta!
+
+            </div>
+
+            <div class="campo-nome">
+
+                <input
+                    type="text"
+                    id="nomeCliente"
+                    maxlength="60"
+                    autocomplete="name"
+                    placeholder="Digite seu nome"
+                >
+
+            </div>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="irParaAvaliacao()"
+            >
+
+                CONTINUAR
+
+                <span>➜</span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <section id="telaAvaliacao" class="tela">
+
+        <div class="avaliacao-container">
+
+            <div class="cabecalho-avaliacao">
+
+                <div class="logo">
+
+                    <h1 style="font-size:42px;">
+                        BROCÁDOS
+                    </h1>
+
+                </div>
+
+                <h2>
+                    📝 Avaliação de Atendimento
+                </h2>
+
+                <p>
+                    Responda com sinceridade. É rapidinho!
+                </p>
+
+            </div>
+
+            <div class="formulario">
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div class="numero">
+                            1
+                        </div>
+
+                        <span>
+                            Por quem você foi atendido?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="joao"
+                                value="João"
+                            >
+
+                            <label for="joao">
+                                João
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="caio"
+                                value="Caio"
+                            >
+
+                            <label for="caio">
+                                Caio
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="juam"
+                                value="Juam"
+                            >
+
+                            <label for="juam">
+                                Juam
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="victor"
+                                value="Victor"
+                            >
+
+                            <label for="victor">
+                                Victor
+                            </label>
+                        </div>
+
+                        <!-- LIDIANy ADICIONADA -->
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="lidiany"
+                                value="Lidiany"
+                            >
+
+                            <label for="lidiany">
+                                Lidiany
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div
+                            class="numero"
+                            style="background:#ed1c24;color:white;"
+                        >
+                            2
+                        </div>
+
+                        <span>
+                            Como foi seu atendimento?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="bom"
+                                value="Bom"
+                            >
+
+                            <label for="bom">
+                                😊 Bom
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="otimo"
+                                value="Ótimo"
+                            >
+
+                            <label for="otimo">
+                                😍 Ótimo
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="pessimo"
+                                value="Péssimo"
+                            >
+
+                            <label for="pessimo">
+                                😞 Péssimo
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div class="numero">
+                            3
+                        </div>
+
+                        <span>
+                            Você se sente satisfeito com a comida?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="simComida"
+                                value="Sim"
+                            >
+
+                            <label for="simComida">
+                                😍 Sim
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="naoComida"
+                                value="Não"
+                            >
+
+                            <label for="naoComida">
+                                😕 Não
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="talvezComida"
+                                value="Talvez"
+                            >
+
+                            <label for="talvezComida">
+                                🤔 Talvez
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div
+                            class="numero"
+                            style="background:#ed1c24;color:white;"
+                        >
+                            4
+                        </div>
+
+                        <span>
+                            Você recomendaria para um amigo?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="recomendaria"
+                                id="simRecomenda"
+                                value="Sim"
+                            >
+
+                            <label for="simRecomenda">
+                                👍 Sim
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="recomendaria"
+                                id="naoRecomenda"
+                                value="Não"
+                            >
+
+                            <label for="naoRecomenda">
+                                👎 Não
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="botao-continuar">
+
+                    <button
+                        class="btn btn-vermelho"
+                        onclick="irParaRoleta()"
+                    >
+
+                        Continuar
+
+                        <span>➜</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="telaRoleta" class="tela">
+
+        <div class="roleta-container">
+
+            <div class="logo">
+
+                <h1 style="font-size:45px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <h2>
+                🎁 É HORA DA ROLETA!
+            </h2>
+
+            <p>
+                Gire a roleta e descubra qual prêmio você ganhou!
+            </p>
+
+            <div class="area-roleta">
+
+                <div class="roleta-box">
+
+                    <div class="ponteiro"></div>
+
+                    <div
+                        id="roleta"
+                        class="roleta"
+                    >
+
+                        <div class="premio-label p1">
+                            <span>
+                                🍹<br>
+                                Gin de 10
+                            </span>
+                        </div>
+
+                        <div class="premio-label p2">
+                            <span>
+                                🎟️<br>
+                                50% de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p3">
+                            <span>
+                                🍔<br>
+                                1 lanche grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p4">
+                            <span>
+                                🥤<br>
+                                1 refrigerante grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p5">
+                            <span>
+                                🍟<br>
+                                1 porção de batata grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p6">
+                            <span>
+                                💰<br>
+                                R$ 5,00 de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p7">
+                            <span>
+                                🍔<br>
+                                R$ 10,00 de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p8">
+                            <span>
+                                🍫<br>
+                                1 sobremesa grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p9">
+                            <span>
+                                🎁<br>
+                                Prêmio surpresa
+                            </span>
+                        </div>
+
+                        <div class="premio-label p10">
+                            <span>
+                                🔄<br>
+                                Gire novamente
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="resultado">
+
+                    <h3>
+                        🏆 PRÊMIO SORTEADO:
+                    </h3>
+
+                    <div id="premioResultado">
+                        🎰
+                    </div>
+
+                    <button
+                        id="botaoGirar"
+                        class="btn btn-amarelo"
+                        onclick="girarRoleta()"
+                    >
+
+                        🔄 GIRAR AGORA
+
+                    </button>
+
+                    <div class="observacao">
+
+                        Boa sorte! 🍀
+
+                        <br>
+
+                        Obrigado por avaliar o Brocados Lanche ❤️
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="telaFinal" class="tela">
+
+        <div class="final-container">
+
+            <div class="final-icone">
+                🎉
+            </div>
+
+            <div class="logo">
+
+                <h1 style="font-size:50px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <h2>
+                Obrigado! ❤️
+            </h2>
+
+            <p>
+
+                Sua avaliação foi registrada.
+
+                <br>
+
+                Esperamos ver você novamente no
+
+                <strong style="color:#ffca05;">
+                    Brocados Lanche!
+                </strong>
+
+            </p>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="voltarInicio()"
+            >
+
+                🏠 Voltar ao início
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <script>
+
+        const APPS_SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbynx8CSl7xHE_BZBq0aqngPrYvt61tsSmzjVJWCK1HJHPYVKAeG1iztJdkhJbY_Mo7XoA/exec";
+
+        let avaliacaoAtual = null;
+
+        let premioFinalizado = false;
+
+        function mostrarTela(id) {
+
+            document
+                .querySelectorAll(".tela")
+                .forEach(tela => {
+
+                    tela.classList.remove("ativa");
+
+                });
+
+            document
+                .getElementById(id)
+                .classList.add("ativa");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+        function irParaNome() {
+
+            mostrarTela("telaNome");
+
+            setTimeout(() => {
+
+                document
+                    .getElementById("nomeCliente")
+                    .focus();
+
+            }, 300);
+
+        }
+
+        function irParaAvaliacao() {
+
+            const campoNome =
+                document.getElementById("nomeCliente");
+
+            const nome =
+                campoNome.value.trim();
+
+            if (!nome) {
+
+                alert(
+                    "🍔 Digite seu nome para continuar!"
+                );
+
+                campoNome.focus();
+
+                return;
+
+            }
+
+            mostrarTela("telaAvaliacao");
+
+        }
+
+        function irParaRoleta() {
+
+            const nome =
+                document
+                    .getElementById("nomeCliente")
+                    .value
+                    .trim();
+
+            const atendente =
+                document.querySelector(
+                    'input[name="atendente"]:checked'
+                );
+
+            const atendimento =
+                document.querySelector(
+                    'input[name="atendimento"]:checked'
+                );
+
+            const comida =
+                document.querySelector(
+                    'input[name="comida"]:checked'
+                );
+
+            const recomendaria =
+                document.querySelector(
+                    'input[name="recomendaria"]:checked'
+                );
+
+            if (!nome) {
+
+                alert(
+                    "🍔 Digite seu nome antes de continuar."
+                );
+
+                mostrarTela("telaNome");
+
+                return;
+
+            }
+
+            if (
+                !atendente ||
+                !atendimento ||
+                !comida ||
+                !recomendaria
+            ) {
+
+                alert(
+                    "🍔 Ei! Responda todas as perguntas antes de continuar."
+                );
+
+                return;
+
+            }
+
+            avaliacaoAtual = {
+
+                nome: nome,
+
+                atendente: atendente.value,
+
+                atendimento: atendimento.value,
+
+                comida: comida.value,
+
+                recomendaria: recomendaria.value,
+
+                premio: "",
+
+                data: new Date().toLocaleString(
+                    "pt-BR"
+                )
+
+            };
+
+            premioFinalizado = false;
+
+            girando = false;
+
+            rotacaoAtual = 0;
+
+            localStorage.setItem(
+                "ultimaAvaliacaoBrocados",
+                JSON.stringify(avaliacaoAtual)
+            );
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            botao.disabled = false;
+
+            botao.style.opacity = "1";
+
+            botao.style.cursor = "pointer";
+
+            botao.innerHTML =
+                "🔄 GIRAR AGORA";
+
+            document.getElementById(
+                "premioResultado"
+            ).innerHTML = "🎰";
+
+            const roleta =
+                document.getElementById("roleta");
+
+            roleta.style.transition = "none";
+
+            roleta.style.transform =
+                "rotate(0deg)";
+
+            setTimeout(() => {
+
+                roleta.style.transition =
+                    "transform 5s cubic-bezier(.15,.8,.15,1)";
+
+            }, 50);
+
+            mostrarTela("telaRoleta");
+
+        }
+
+        const premios = [
+
+            "🍹 Gin de 10",
+
+            "🎟️ 50% de desconto",
+
+            "🍔 1 lanche grátis",
+
+            "🥤 1 refrigerante grátis",
+
+            "🍟 1 porção de batata grátis",
+
+            "💰 R$ 5,00 de desconto",
+
+            "🍔 R$ 10,00 de desconto",
+
+            "🍫 1 sobremesa grátis",
+
+            "🎁 Prêmio surpresa",
+
+            "🔄 Gire novamente"
+
+        ];
+
+        let girando = false;
+
+        let rotacaoAtual = 0;
+
+        function salvarOnline(dados) {
+
+            try {
+
+                fetch(
+                    APPS_SCRIPT_URL,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(dados)
+                    }
+                );
+
+            } catch (erro) {
+
+                console.log(
+                    "Não foi possível enviar para a planilha:",
+                    erro
+                );
+
+            }
+
+        }
+
+        function girarRoleta() {
+
+            if (premioFinalizado) {
+
+                return;
+
+            }
+
+            if (girando) {
+
+                return;
+
+            }
+
+            girando = true;
+
+            const roleta =
+                document.getElementById("roleta");
+
+            const resultado =
+                document.getElementById(
+                    "premioResultado"
+                );
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            resultado.innerHTML =
+                "🎰 Girando...";
+
+            botao.disabled = true;
+
+            botao.style.opacity = "0.5";
+
+            botao.style.cursor = "not-allowed";
+
+            const indice =
+                Math.floor(
+                    Math.random() * premios.length
+                );
+
+            const grausPorPremio = 36;
+
+            const centroDaFatia =
+                indice * grausPorPremio + 18;
+
+            const rotacaoDesejada =
+                -centroDaFatia;
+
+            const rotacaoNormalizada =
+                (
+                    rotacaoAtual % 360 + 360
+                ) % 360;
+
+            let diferenca =
+                (
+                    rotacaoDesejada -
+                    rotacaoNormalizada +
+                    360
+                ) % 360;
+
+            const numeroDeVoltas =
+                6 +
+                Math.floor(
+                    Math.random() * 3
+                );
+
+            const voltas =
+                numeroDeVoltas * 360;
+
+            rotacaoAtual =
+                rotacaoAtual +
+                voltas +
+                diferenca;
+
+            roleta.style.transform =
+                `rotate(${rotacaoAtual}deg)`;
+
+            setTimeout(() => {
+
+                if (indice === 9) {
+
+                    resultado.innerHTML =
+                        "🔄 GIRE NOVAMENTE!";
+
+                    girando = false;
+
+                    botao.disabled = false;
+
+                    botao.style.opacity = "1";
+
+                    botao.style.cursor = "pointer";
+
+                    botao.innerHTML =
+                        "🔄 GIRAR NOVAMENTE";
+
+                    return;
+
+                }
+
+                const premio =
+                    premios[indice];
+
+                resultado.innerHTML =
+                    premio;
+
+                premioFinalizado = true;
+
+                botao.disabled = true;
+
+                botao.style.opacity = "0.5";
+
+                botao.style.cursor = "not-allowed";
+
+                botao.innerHTML =
+                    "🏆 PRÊMIO FINALIZADO";
+
+                if (avaliacaoAtual) {
+
+                    avaliacaoAtual.premio =
+                        premio;
+
+                    localStorage.setItem(
+                        "ultimaAvaliacaoBrocados",
+                        JSON.stringify(
+                            avaliacaoAtual
+                        )
+                    );
+
+                    salvarOnline(
+                        avaliacaoAtual
+                    );
+
+                }
+
+                girando = false;
+
+            }, 5200);
+
+        }
+
+        function voltarInicio() {
+
+            document
+                .querySelectorAll(
+                    'input[type="radio"]'
+                )
+                .forEach(input => {
+
+                    input.checked = false;
+
+                });
+
+            document.getElementById(
+                "nomeCliente"
+            ).value = "";
+
+            document.getElementById(
+                "premioResultado"
+            ).innerHTML = "🎰";
+
+            const roleta =
+                document.getElementById("roleta");
+
+            roleta.style.transition = "none";
+
+            roleta.style.transform =
+                "rotate(0deg)";
+
+            rotacaoAtual = 0;
+
+            girando = false;
+
+            premioFinalizado = false;
+
+            avaliacaoAtual = null;
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            botao.disabled = false;
+
+            botao.style.opacity = "1";
+
+            botao.style.cursor = "pointer";
+
+            botao.innerHTML =
+                "🔄 GIRAR AGORA";
+
+            setTimeout(() => {
+
+                roleta.style.transition =
+                    "transform 5s cubic-bezier(.15,.8,.15,1)";
+
+            }, 50);
+
+            mostrarTela("telaInicio");
+
+        }
+
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brocados Lanche | Avaliação</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #ffcc00 0%, transparent 25%),
+                radial-gradient(circle at bottom right, #e50914 0%, transparent 28%),
+                #080808;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            background: #ffca05;
+            border-radius: 50%;
+            top: -150px;
+            left: -120px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: #ed1c24;
+            border-radius: 50%;
+            bottom: -180px;
+            right: -150px;
+            z-index: -1;
+        }
+
+        .decoracao {
+            position: fixed;
+            font-size: 35px;
+            z-index: -1;
+            opacity: .8;
+        }
+
+        .decoracao.um {
+            top: 8%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+
+        .decoracao.dois {
+            top: 15%;
+            right: 5%;
+            transform: rotate(20deg);
+        }
+
+        .decoracao.tres {
+            bottom: 10%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+
+        .tela {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            padding: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tela.ativa {
+            display: flex;
+            animation: aparecer .5s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-size: clamp(38px, 8vw, 72px);
+            font-weight: 1000;
+            color: #ffca05;
+            text-transform: uppercase;
+            text-shadow:
+                4px 4px 0 #e50914,
+                7px 7px 0 #000;
+            letter-spacing: -3px;
+        }
+
+        .logo h2 {
+            display: inline-block;
+            background: #fff;
+            color: #111;
+            padding: 5px 20px;
+            font-size: clamp(20px, 4vw, 32px);
+            font-weight: 900;
+            transform: rotate(-2deg);
+            margin-top: 5px;
+        }
+
+        .logo h2::before,
+        .logo h2::after {
+            content: "★";
+            color: #ed1c24;
+            margin: 0 8px;
+        }
+
+        .inicio-container {
+            width: 100%;
+            max-width: 850px;
+            text-align: center;
+        }
+
+        .slogan {
+            font-size: 19px;
+            font-weight: bold;
+            margin: 10px auto 20px;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        .slogan span {
+            color: #ffca05;
+        }
+
+        .hamburguer {
+            width: min(390px, 90vw);
+            margin: 15px auto 20px;
+            position: relative;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,.6));
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+        @keyframes flutuar {
+            0%, 100% {
+                transform: translateY(0) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        .hamburguer .emoji {
+            font-size: clamp(150px, 35vw, 260px);
+            line-height: 1;
+        }
+
+        .mensagem {
+            font-size: 22px;
+            font-weight: 900;
+            margin: 15px 0 8px;
+        }
+
+        .submensagem {
+            color: #ddd;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .campo-nome {
+            width: 100%;
+            max-width: 500px;
+            margin: 25px auto;
+        }
+
+        .campo-nome input {
+            width: 100%;
+            padding: 17px 22px;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            font-size: 18px;
+            text-align: center;
+            background: white;
+            color: #111;
+            box-shadow: 0 6px 20px rgba(0,0,0,.4);
+        }
+
+        .campo-nome input::placeholder {
+            color: #888;
+        }
+
+        .campo-nome input:focus {
+            box-shadow:
+                0 0 0 4px #ffca05,
+                0 6px 20px rgba(0,0,0,.4);
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 17px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 900;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-amarelo {
+            background: #ffca05;
+            color: #111;
+            box-shadow: 0 6px 0 #b88600;
+        }
+
+        .btn-amarelo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #b88600;
+        }
+
+        .btn-vermelho {
+            background: #ed1c24;
+            color: white;
+            box-shadow: 0 6px 0 #8d090e;
+        }
+
+        .btn-vermelho:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #555;
+        }
+
+        .btn:disabled {
+            pointer-events: none;
+        }
+
+        .avaliacao-container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .cabecalho-avaliacao {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .cabecalho-avaliacao h2 {
+            font-size: clamp(27px, 5vw, 40px);
+            color: #ffca05;
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-avaliacao p {
+            color: #ddd;
+        }
+
+        .formulario {
+            background: #f8f8f8;
+            color: #111;
+            border-radius: 30px;
+            padding: clamp(20px, 5vw, 40px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
+        }
+
+        .pergunta {
+            margin-bottom: 28px;
+        }
+
+        .titulo-pergunta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .numero {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffca05;
+            color: #111;
+            font-weight: 1000;
+        }
+
+        .opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .opcao {
+            flex: 1;
+            min-width: 110px;
+        }
+
+        .opcao input {
+            display: none;
+        }
+
+        .opcao label {
+            display: block;
+            text-align: center;
+            padding: 13px 15px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s;
+            background: white;
+        }
+
+        .opcao label:hover {
+            border-color: #ffca05;
+            transform: translateY(-2px);
+        }
+
+        .opcao input:checked + label {
+            background: #ffca05;
+            border-color: #ffca05;
+            color: #111;
+            box-shadow: 0 4px 0 #d49f00;
+        }
+
+        .botao-continuar {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .roleta-container {
+            width: 100%;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        .roleta-container h2 {
+            font-size: clamp(30px, 6vw, 50px);
+            color: #ffca05;
+            text-shadow: 3px 3px #e50914;
+            margin-bottom: 5px;
+        }
+
+        .roleta-container > p {
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .area-roleta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .roleta-box {
+            position: relative;
+            width: min(430px, 90vw);
+            aspect-ratio: 1;
+        }
+
+        .ponteiro {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 45px solid #ffca05;
+            filter: drop-shadow(0 3px 2px #000);
+        }
+
+        .roleta {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 12px solid #111;
+            box-shadow:
+                0 0 0 5px #ffca05,
+                0 15px 35px rgba(0,0,0,.6);
+            position: relative;
+            overflow: hidden;
+
+            background:
+                conic-gradient(
+                    #ed1c24 0deg 36deg,
+                    #7638d9 36deg 72deg,
+                    #ffca05 72deg 108deg,
+                    #179be6 108deg 144deg,
+                    #1db954 144deg 180deg,
+                    #f7931e 180deg 216deg,
+                    #ff3d8b 216deg 252deg,
+                    #22bfc5 252deg 288deg,
+                    #7b3fb3 288deg 324deg,
+                    #666 324deg 360deg
+                );
+
+            transition: transform 5s cubic-bezier(.15,.8,.15,1);
+        }
+
+        .roleta::after {
+            content: "";
+            position: absolute;
+            inset: 45%;
+            border-radius: 50%;
+            background: #111;
+            border: 4px solid #ffca05;
+            z-index: 5;
+        }
+
+        /* ================================
+           NOMES DA ROLETA - HORIZONTAIS
+           ================================ */
+
+        .premio-label {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 105px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(10px, 2vw, 14px);
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            line-height: 1.1;
+            pointer-events: none;
+            text-shadow:
+                1px 1px 2px #000,
+                -1px -1px 2px #000;
+            z-index: 4;
+        }
+
+        .premio-label span {
+            width: 105px;
+            display: block;
+        }
+
+        /* POSIÇÃO DE CADA PRÊMIO */
+        .p1 {
+            transform:
+                translate(-50%, -50%)
+                rotate(18deg)
+                translateY(-125px);
+        }
+
+        .p2 {
+            transform:
+                translate(-50%, -50%)
+                rotate(54deg)
+                translateY(-125px);
+        }
+
+        .p3 {
+            transform:
+                translate(-50%, -50%)
+                rotate(90deg)
+                translateY(-125px);
+        }
+
+        .p4 {
+            transform:
+                translate(-50%, -50%)
+                rotate(126deg)
+                translateY(-125px);
+        }
+
+        .p5 {
+            transform:
+                translate(-50%, -50%)
+                rotate(162deg)
+                translateY(-125px);
+        }
+
+        .p6 {
+            transform:
+                translate(-50%, -50%)
+                rotate(198deg)
+                translateY(-125px);
+        }
+
+        .p7 {
+            transform:
+                translate(-50%, -50%)
+                rotate(234deg)
+                translateY(-125px);
+        }
+
+        .p8 {
+            transform:
+                translate(-50%, -50%)
+                rotate(270deg)
+                translateY(-125px);
+        }
+
+        .p9 {
+            transform:
+                translate(-50%, -50%)
+                rotate(306deg)
+                translateY(-125px);
+        }
+
+        .p10 {
+            transform:
+                translate(-50%, -50%)
+                rotate(342deg)
+                translateY(-125px);
+        }
+
+        /* CORREÇÃO DA INCLINAÇÃO DOS TEXTOS */
+
+        .p1 span {
+            transform: rotate(-18deg);
+        }
+
+        .p2 span {
+            transform: rotate(-54deg);
+        }
+
+        .p3 span {
+            transform: rotate(-90deg);
+        }
+
+        .p4 span {
+            transform: rotate(-126deg);
+        }
+
+        .p5 span {
+            transform: rotate(-162deg);
+        }
+
+        .p6 span {
+            transform: rotate(-198deg);
+        }
+
+        .p7 span {
+            transform: rotate(-234deg);
+        }
+
+        .p8 span {
+            transform: rotate(-270deg);
+        }
+
+        .p9 span {
+            transform: rotate(-306deg);
+        }
+
+        .p10 span {
+            transform: rotate(-342deg);
+        }
+
+        .resultado {
+            background: #111;
+            border: 3px solid #ffca05;
+            border-radius: 25px;
+            padding: 30px;
+            width: min(370px, 90vw);
+            box-shadow: 0 10px 30px rgba(0,0,0,.5);
+        }
+
+        .resultado h3 {
+            color: #ffca05;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        #premioResultado {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: 1000;
+            line-height: 1.3;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .observacao {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .final-container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .final-icone {
+            font-size: 90px;
+            animation: pulso 1.5s infinite;
+        }
+
+        @keyframes pulso {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .final-container h2 {
+            color: #ffca05;
+            font-size: 40px;
+            margin: 15px 0;
+        }
+
+        .final-container p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+
+            .tela {
+                padding: 18px 12px;
+            }
+
+            .formulario {
+                border-radius: 22px;
+                padding: 20px 15px;
+            }
+
+            .titulo-pergunta {
+                align-items: flex-start;
+                font-size: 16px;
+            }
+
+            .numero {
+                min-width: 32px;
+                height: 32px;
+            }
+
+            .opcoes {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .opcao label {
+                font-size: 14px;
+                padding: 12px 5px;
+            }
+
+            .area-roleta {
+                gap: 30px;
+            }
+
+            .resultado {
+                padding: 20px;
+            }
+
+            .premio-label {
+                width: 78px;
+                min-height: 55px;
+                font-size: 9px;
+            }
+
+            .premio-label span {
+                width: 78px;
+            }
+
+            /* POSIÇÃO NO CELULAR */
+
+            .p1 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(18deg)
+                    translateY(-100px);
+            }
+
+            .p2 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(54deg)
+                    translateY(-100px);
+            }
+
+            .p3 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(90deg)
+                    translateY(-100px);
+            }
+
+            .p4 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(126deg)
+                    translateY(-100px);
+            }
+
+            .p5 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(162deg)
+                    translateY(-100px);
+            }
+
+            .p6 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(198deg)
+                    translateY(-100px);
+            }
+
+            .p7 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(234deg)
+                    translateY(-100px);
+            }
+
+            .p8 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(270deg)
+                    translateY(-100px);
+            }
+
+            .p9 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(306deg)
+                    translateY(-100px);
+            }
+
+            .p10 {
+                transform:
+                    translate(-50%, -50%)
+                    rotate(342deg)
+                    translateY(-100px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="decoracao um">🍔</div>
+    <div class="decoracao dois">🍟</div>
+    <div class="decoracao tres">👑</div>
+
+    <section id="telaInicio" class="tela ativa">
+
+        <div class="inicio-container">
+
+            <div class="logo">
+
+                <h1>BROCÁDOS</h1>
+
+                <h2>LANCHE</h2>
+
+            </div>
+
+            <div class="slogan">
+
+                Sabor, qualidade e aquele atendimento
+                <span>que dá vontade de voltar!</span>
+
+            </div>
+
+            <div class="hamburguer">
+
+                <div class="emoji">
+                    🍔
+                </div>
+
+            </div>
+
+            <div class="mensagem">
+                Seja muito bem-vindo(a)! ❤️
+            </div>
+
+            <div class="submensagem">
+
+                Sua opinião é muito importante para nós!
+
+                <br>
+
+                Responda rapidinho e concorra a
+
+                <strong style="color:#ffca05;">
+                    prêmios incríveis!
+                </strong>
+
+            </div>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="irParaNome()"
+            >
+
+                COMEÇAR
+
+                <span>➜</span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <section id="telaNome" class="tela">
+
+        <div class="inicio-container">
+
+            <div class="logo">
+
+                <h1 style="font-size:50px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <div class="mensagem">
+                👋 Antes de começar...
+            </div>
+
+            <div class="submensagem">
+
+                Digite seu nome para participar
+                da avaliação e da roleta!
+
+            </div>
+
+            <div class="campo-nome">
+
+                <input
+                    type="text"
+                    id="nomeCliente"
+                    maxlength="60"
+                    autocomplete="name"
+                    placeholder="Digite seu nome"
+                >
+
+            </div>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="irParaAvaliacao()"
+            >
+
+                CONTINUAR
+
+                <span>➜</span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <section id="telaAvaliacao" class="tela">
+
+        <div class="avaliacao-container">
+
+            <div class="cabecalho-avaliacao">
+
+                <div class="logo">
+
+                    <h1 style="font-size:42px;">
+                        BROCÁDOS
+                    </h1>
+
+                </div>
+
+                <h2>
+                    📝 Avaliação de Atendimento
+                </h2>
+
+                <p>
+                    Responda com sinceridade. É rapidinho!
+                </p>
+
+            </div>
+
+            <div class="formulario">
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div class="numero">
+                            1
+                        </div>
+
+                        <span>
+                            Por quem você foi atendido?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="joao"
+                                value="João"
+                            >
+
+                            <label for="joao">
+                                João
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="caio"
+                                value="Caio"
+                            >
+
+                            <label for="caio">
+                                Caio
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="juam"
+                                value="Juam"
+                            >
+
+                            <label for="juam">
+                                Juam
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="victor"
+                                value="Victor"
+                            >
+
+                            <label for="victor">
+                                Victor
+                            </label>
+                        </div>
+
+                        <div class="opcao">
+                            <input
+                                type="radio"
+                                name="atendente"
+                                id="lidiany"
+                                value="Lidiany"
+                            >
+
+                            <label for="lidiany">
+                                Lidiany
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div
+                            class="numero"
+                            style="background:#ed1c24;color:white;"
+                        >
+                            2
+                        </div>
+
+                        <span>
+                            Como foi seu atendimento?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="bom"
+                                value="Bom"
+                            >
+
+                            <label for="bom">
+                                😊 Bom
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="otimo"
+                                value="Ótimo"
+                            >
+
+                            <label for="otimo">
+                                😍 Ótimo
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="atendimento"
+                                id="pessimo"
+                                value="Péssimo"
+                            >
+
+                            <label for="pessimo">
+                                😞 Péssimo
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div class="numero">
+                            3
+                        </div>
+
+                        <span>
+                            Você se sente satisfeito com a comida?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="simComida"
+                                value="Sim"
+                            >
+
+                            <label for="simComida">
+                                😍 Sim
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="naoComida"
+                                value="Não"
+                            >
+
+                            <label for="naoComida">
+                                😕 Não
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="comida"
+                                id="talvezComida"
+                                value="Talvez"
+                            >
+
+                            <label for="talvezComida">
+                                🤔 Talvez
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="pergunta">
+
+                    <div class="titulo-pergunta">
+
+                        <div
+                            class="numero"
+                            style="background:#ed1c24;color:white;"
+                        >
+                            4
+                        </div>
+
+                        <span>
+                            Você recomendaria para um amigo?
+                        </span>
+
+                    </div>
+
+                    <div class="opcoes">
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="recomendaria"
+                                id="simRecomenda"
+                                value="Sim"
+                            >
+
+                            <label for="simRecomenda">
+                                👍 Sim
+                            </label>
+
+                        </div>
+
+                        <div class="opcao">
+
+                            <input
+                                type="radio"
+                                name="recomendaria"
+                                id="naoRecomenda"
+                                value="Não"
+                            >
+
+                            <label for="naoRecomenda">
+                                👎 Não
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="botao-continuar">
+
+                    <button
+                        class="btn btn-vermelho"
+                        onclick="irParaRoleta()"
+                    >
+
+                        Continuar
+
+                        <span>➜</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="telaRoleta" class="tela">
+
+        <div class="roleta-container">
+
+            <div class="logo">
+
+                <h1 style="font-size:45px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <h2>
+                🎁 É HORA DA ROLETA!
+            </h2>
+
+            <p>
+                Gire a roleta e descubra qual prêmio você ganhou!
+            </p>
+
+            <div class="area-roleta">
+
+                <div class="roleta-box">
+
+                    <div class="ponteiro"></div>
+
+                    <div
+                        id="roleta"
+                        class="roleta"
+                    >
+
+                        <div class="premio-label p1">
+                            <span>
+                                🍹<br>
+                                Gin de 10
+                            </span>
+                        </div>
+
+                        <div class="premio-label p2">
+                            <span>
+                                🎟️<br>
+                                50% de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p3">
+                            <span>
+                                🍔<br>
+                                1 lanche grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p4">
+                            <span>
+                                🥤<br>
+                                1 refrigerante grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p5">
+                            <span>
+                                🍟<br>
+                                1 porção de batata grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p6">
+                            <span>
+                                💰<br>
+                                R$ 5,00 de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p7">
+                            <span>
+                                🍔<br>
+                                R$ 10,00 de desconto
+                            </span>
+                        </div>
+
+                        <div class="premio-label p8">
+                            <span>
+                                🍫<br>
+                                1 sobremesa grátis
+                            </span>
+                        </div>
+
+                        <div class="premio-label p9">
+                            <span>
+                                🎁<br>
+                                Prêmio surpresa
+                            </span>
+                        </div>
+
+                        <div class="premio-label p10">
+                            <span>
+                                🔄<br>
+                                Gire novamente
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="resultado">
+
+                    <h3>
+                        🏆 PRÊMIO SORTEADO:
+                    </h3>
+
+                    <div id="premioResultado">
+                        🎰
+                    </div>
+
+                    <button
+                        id="botaoGirar"
+                        class="btn btn-amarelo"
+                        onclick="girarRoleta()"
+                    >
+
+                        🔄 GIRAR AGORA
+
+                    </button>
+
+                    <div class="observacao">
+
+                        Boa sorte! 🍀
+
+                        <br>
+
+                        Obrigado por avaliar o Brocados Lanche ❤️
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="telaFinal" class="tela">
+
+        <div class="final-container">
+
+            <div class="final-icone">
+                🎉
+            </div>
+
+            <div class="logo">
+
+                <h1 style="font-size:50px;">
+                    BROCÁDOS
+                </h1>
+
+                <h2>
+                    LANCHE
+                </h2>
+
+            </div>
+
+            <h2>
+                Obrigado! ❤️
+            </h2>
+
+            <p>
+
+                Sua avaliação foi registrada.
+
+                <br>
+
+                Esperamos ver você novamente no
+
+                <strong style="color:#ffca05;">
+                    Brocados Lanche!
+                </strong>
+
+            </p>
+
+            <button
+                class="btn btn-amarelo"
+                onclick="voltarInicio()"
+            >
+
+                🏠 Voltar ao início
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <script>
+
+        const APPS_SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbynx8CSl7xHE_BZBq0aqngPrYvt61tsSmzjVWCK1HJHPYVKAeG1iztJdkhJbY_Mo7XoA/exec";
+
+        let avaliacaoAtual = null;
+
+        let premioFinalizado = false;
+
+        function mostrarTela(id) {
+
+            document
+                .querySelectorAll(".tela")
+                .forEach(tela => {
+
+                    tela.classList.remove("ativa");
+
+                });
+
+            document
+                .getElementById(id)
+                .classList.add("ativa");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+        function irParaNome() {
+
+            mostrarTela("telaNome");
+
+            setTimeout(() => {
+
+                document
+                    .getElementById("nomeCliente")
+                    .focus();
+
+            }, 300);
+
+        }
+
+        function irParaAvaliacao() {
+
+            const campoNome =
+                document.getElementById("nomeCliente");
+
+            const nome =
+                campoNome.value.trim();
+
+            if (!nome) {
+
+                alert(
+                    "🍔 Digite seu nome para continuar!"
+                );
+
+                campoNome.focus();
+
+                return;
+
+            }
+
+            mostrarTela("telaAvaliacao");
+
+        }
+
+        function irParaRoleta() {
+
+            const nome =
+                document
+                    .getElementById("nomeCliente")
+                    .value
+                    .trim();
+
+            const atendente =
+                document.querySelector(
+                    'input[name="atendente"]:checked'
+                );
+
+            const atendimento =
+                document.querySelector(
+                    'input[name="atendimento"]:checked'
+                );
+
+            const comida =
+                document.querySelector(
+                    'input[name="comida"]:checked'
+                );
+
+            const recomendaria =
+                document.querySelector(
+                    'input[name="recomendaria"]:checked'
+                );
+
+            if (!nome) {
+
+                alert(
+                    "🍔 Digite seu nome antes de continuar."
+                );
+
+                mostrarTela("telaNome");
+
+                return;
+
+            }
+
+            if (
+                !atendente ||
+                !atendimento ||
+                !comida ||
+                !recomendaria
+            ) {
+
+                alert(
+                    "🍔 Ei! Responda todas as perguntas antes de continuar."
+                );
+
+                return;
+
+            }
+
+            avaliacaoAtual = {
+
+                nome: nome,
+
+                atendente: atendente.value,
+
+                atendimento: atendimento.value,
+
+                comida: comida.value,
+
+                recomendaria: recomendaria.value,
+
+                premio: "",
+
+                data: new Date().toLocaleString(
+                    "pt-BR"
+                )
+
+            };
+
+            premioFinalizado = false;
+
+            girando = false;
+
+            rotacaoAtual = 0;
+
+            localStorage.setItem(
+                "ultimaAvaliacaoBrocados",
+                JSON.stringify(avaliacaoAtual)
+            );
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            botao.disabled = false;
+
+            botao.style.opacity = "1";
+
+            botao.style.cursor = "pointer";
+
+            botao.innerHTML =
+                "🔄 GIRAR AGORA";
+
+            document.getElementById(
+                "premioResultado"
+            ).innerHTML = "🎰";
+
+            const roleta =
+                document.getElementById("roleta");
+
+            roleta.style.transition = "none";
+
+            roleta.style.transform =
+                "rotate(0deg)";
+
+            setTimeout(() => {
+
+                roleta.style.transition =
+                    "transform 5s cubic-bezier(.15,.8,.15,1)";
+
+            }, 50);
+
+            mostrarTela("telaRoleta");
+
+        }
+
+        const premios = [
+
+            "🍹 Gin de 10",
+
+            "🎟️ 50% de desconto",
+
+            "🍔 1 lanche grátis",
+
+            "🥤 1 refrigerante grátis",
+
+            "🍟 1 porção de batata grátis",
+
+            "💰 R$ 5,00 de desconto",
+
+            "🍔 R$ 10,00 de desconto",
+
+            "🍫 1 sobremesa grátis",
+
+            "🎁 Prêmio surpresa",
+
+            "🔄 Gire novamente"
+
+        ];
+
+        let girando = false;
+
+        let rotacaoAtual = 0;
+
+        function salvarOnline(dados) {
+
+            try {
+
+                fetch(
+                    APPS_SCRIPT_URL,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(dados)
+                    }
+                );
+
+            } catch (erro) {
+
+                console.log(
+                    "Não foi possível enviar para a planilha:",
+                    erro
+                );
+
+            }
+
+        }
+
+        function girarRoleta() {
+
+            if (premioFinalizado) {
+
+                return;
+
+            }
+
+            if (girando) {
+
+                return;
+
+            }
+
+            girando = true;
+
+            const roleta =
+                document.getElementById("roleta");
+
+            const resultado =
+                document.getElementById(
+                    "premioResultado"
+                );
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            resultado.innerHTML =
+                "🎰 Girando...";
+
+            botao.disabled = true;
+
+            botao.style.opacity = "0.5";
+
+            botao.style.cursor = "not-allowed";
+
+            const indice =
+                Math.floor(
+                    Math.random() * premios.length
+                );
+
+            const grausPorPremio = 36;
+
+            const centroDaFatia =
+                indice * grausPorPremio + 18;
+
+            const rotacaoDesejada =
+                -centroDaFatia;
+
+            const rotacaoNormalizada =
+                (
+                    rotacaoAtual % 360 + 360
+                ) % 360;
+
+            let diferenca =
+                (
+                    rotacaoDesejada -
+                    rotacaoNormalizada +
+                    360
+                ) % 360;
+
+            const numeroDeVoltas =
+                6 +
+                Math.floor(
+                    Math.random() * 3
+                );
+
+            const voltas =
+                numeroDeVoltas * 360;
+
+            rotacaoAtual =
+                rotacaoAtual +
+                voltas +
+                diferenca;
+
+            roleta.style.transform =
+                `rotate(${rotacaoAtual}deg)`;
+
+            setTimeout(() => {
+
+                if (indice === 9) {
+
+                    resultado.innerHTML =
+                        "🔄 GIRE NOVAMENTE!";
+
+                    girando = false;
+
+                    botao.disabled = false;
+
+                    botao.style.opacity = "1";
+
+                    botao.style.cursor = "pointer";
+
+                    botao.innerHTML =
+                        "🔄 GIRAR NOVAMENTE";
+
+                    return;
+
+                }
+
+                const premio =
+                    premios[indice];
+
+                resultado.innerHTML =
+                    premio;
+
+                premioFinalizado = true;
+
+                botao.disabled = true;
+
+                botao.style.opacity = "0.5";
+
+                botao.style.cursor = "not-allowed";
+
+                botao.innerHTML =
+                    "🏆 PRÊMIO FINALIZADO";
+
+                if (avaliacaoAtual) {
+
+                    avaliacaoAtual.premio =
+                        premio;
+
+                    localStorage.setItem(
+                        "ultimaAvaliacaoBrocados",
+                        JSON.stringify(
+                            avaliacaoAtual
+                        )
+                    );
+
+                    salvarOnline(
+                        avaliacaoAtual
+                    );
+
+                }
+
+                girando = false;
+
+            }, 5200);
+
+        }
+
+        function voltarInicio() {
+
+            document
+                .querySelectorAll(
+                    'input[type="radio"]'
+                )
+                .forEach(input => {
+
+                    input.checked = false;
+
+                });
+
+            document.getElementById(
+                "nomeCliente"
+            ).value = "";
+
+            document.getElementById(
+                "premioResultado"
+            ).innerHTML = "🎰";
+
+            const roleta =
+                document.getElementById("roleta");
+
+            roleta.style.transition = "none";
+
+            roleta.style.transform =
+                "rotate(0deg)";
+
+            rotacaoAtual = 0;
+
+            girando = false;
+
+            premioFinalizado = false;
+
+            avaliacaoAtual = null;
+
+            const botao =
+                document.getElementById(
+                    "botaoGirar"
+                );
+
+            botao.disabled = false;
+
+            botao.style.opacity = "1";
+
+            botao.style.cursor = "pointer";
+
+            botao.innerHTML =
+                "🔄 GIRAR AGORA";
+
+            setTimeout(() => {
+
+                roleta.style.transition =
+                    "transform 5s cubic-bezier(.15,.8,.15,1)";
+
+            }, 50);
+
+            mostrarTela("telaInicio");
+
+        }
+
+    </script>
+
+</body>
+</html>
